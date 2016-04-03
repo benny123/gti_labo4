@@ -45,23 +45,41 @@ public class Main {
 		PPMReaderWriter ppmrw = new PPMReaderWriter();
 		SZLReaderWriter szlrw = new SZLReaderWriter();
 		RVBaYUV rvbAyuv = new RVBaYUV();
+		DCT2D dct = new DCT2D();
+		Quantification qtc = new Quantification();
 		String extension = args[0].substring(args[0].lastIndexOf(".") + 1, args[0].length());
 		
-		int tab[][][];
+		int tab[][][], factQ;
 		String filename = args[0];
 		
+		factQ = Integer.parseInt(args[1]);
+		
 		//vérifie si c'est une image PPM ou SZL
-		if(extension.equals("ppm"))
-		{
+		if(extension.equals("ppm")){
+			
 			System.out.println("PPM");
 			//retourne le tableau RGB si le fichier est correcte
 			tab=ppmrw.readPPMFile(filename);
-			//convertir le tableau RVB en YUV
+			//convertir le tableau RVB en YCbCr
 			rvbAyuv.conversion(tab);
+			//DCT
+			double [][][]dctTab = dct.appliqueDCT(rvbAyuv.conversion(tab));
+			System.out.println("DCT TERMINER");
+			
+			double [][][]tabQtc = qtc.quantifier(dctTab,factQ);
+			System.out.println(dctTab[0][16][16]);	
+			System.out.println(tabQtc[0][32][32]);	
+			
+			/*	
+			int compteur=0;
+			for(int i=0,j=0;i<256;i+=8,j+=8){
+				//System.out.println(dctTab[0][i][j]);	
+				//compteur++;
+			}
+			*/
+	
 		}
 		else
-			szlrw.readSZLFile(filename);
-		
-		
+			szlrw.readSZLFile(filename);	
 	}
 }
