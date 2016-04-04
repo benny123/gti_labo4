@@ -18,7 +18,6 @@ public class RVBaYUV {
 	//fonction pour convertir RVB a YCbCr
 	public double[][][] conversion(int tab[][][]) {	
 			
-		System.out.println("Number of columns (i) = " + tab[0].length);
 		int r, b, g;
 		double y,cb,cr;
 		//initialiser la table

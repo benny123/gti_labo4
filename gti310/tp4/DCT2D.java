@@ -14,7 +14,7 @@ public class DCT2D {
 		int rows = tab[0][0].length;
 		//initialiser les matrices
 		imageDCT= new double[3][rows][cols];
-		
+
 		//pour Y-Cr-Cb
 		for(int a=0;a<3;a++){
 			
@@ -38,8 +38,8 @@ public class DCT2D {
 				            for(int i=m; i<m+N;i++){
 				              for(int j=n;j<n+N;j++)				 
 				                sum+=( 
-				                		Math.cos(((2*i+1)*u*Math.PI)/16)* 
-				                		Math.cos(((2*j+1)*v*Math.PI)/16)*
+				                		Math.cos(((2*i+1)*(u%8)*Math.PI)/16)* 
+				                		Math.cos(((2*j+1)*(v%8)*Math.PI)/16)*
 				                		tab[a][i][j] 
 				                	);		
 				            }
@@ -50,6 +50,7 @@ public class DCT2D {
 				}
 			}
 		}
+		
 		return imageDCT;
    }
 }
