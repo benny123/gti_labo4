@@ -36,21 +36,35 @@ public class ZigZag {
 							temp[x][u%8][v%8] = (int)imgQTF[x][u][v]; 
 						}
 					}			
-					//faire le parcour du bloc
-					appliquerZigZag(temp,rangee,x);
-					rangee++; //prochain bloc
+					
+				/*	//affiche le tableau avant le zig zag
+					for (int i=0; i<8; i++){
+							for (int j=0; j<8; j++) {
+								System.out.format("%3d",temp[x][i][j]);
+								System.out.format(" ");
+							}
+							System.out.println();
+						}
+						JOptionPane.showMessageDialog(null, "niveau "+x+" block "+rangee);
+						*/
+					
+					//faire le parcour du bloc 8x8 en zig zag
+					if(rangee<32){	
+						appliquerZigZag(temp,rangee,x);
+						rangee++; //prochain bloc
+					}
 				}
 			}
 		}
 		
+		System.out.println("ZIG ZAG");
 		for(int g=0;g<64;g++)
-			System.out.println(zigzag[1][0][g]);
+			System.out.println(zigzag[0][1][g]);
 	}
 	
 	//fonction qui fait le parcour en zig zag
-	public void appliquerZigZag(int[][][] tempo, int row, int niv){
-		
-		
+	public void appliquerZigZag(int[][][] tempo, int rangee, int niv){
+
 	//affiche le tableau avant le zig zag
 	/*	for (int i=0; i<8; i++){
 			for (int j=0; j<8; j++) {
@@ -63,8 +77,7 @@ public class ZigZag {
 		*/
 		r=0;c=0;dir=1; int indice=0;
 		while (r < 8 && c < 8){
-			
-			zigzag[niv][row][indice] = temp[niv][r][c];
+			zigzag[niv][rangee][indice] = temp[niv][r][c];
 			indice++;
 			
 			if (dir == 1) {
@@ -91,10 +104,5 @@ public class ZigZag {
 				}
 			}
 		}
-		/*System.out.println(" ZIG ZAG ");
-		//affiche le tableau
-		for(int g=0;g<64;g++)	
-			System.out.println(zigzag[0][0][g]);
-		JOptionPane.showMessageDialog(null, "My Goodness, this is so concise");*/
 	}
 }

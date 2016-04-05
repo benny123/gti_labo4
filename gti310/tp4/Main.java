@@ -66,25 +66,24 @@ public class Main {
 			//DCT
 			double [][][]dctTab = dct.appliqueDCT(rvbAyuv.conversion(tab));
 			System.out.println("DCT TERMINER");
-			
+			//quantificaton
 			double [][][]tabQtc = qtc.quantifier(dctTab,factQ);
-		/*	System.out.println(dctTab[0][8][0]);	
-			System.out.println(tabQtc[0][16][31]);	
-			*/
+			//zigzag
 			zigzag.diviserMatrice(tabQtc);
-	
-		/*	
+			/*
+			//affiche un bloc 8x8 quantifié
 			for (int i=0; i<8; i++){
-				for (int j=0; j<8; j++) {
+				for (int j=8; j<16; j++) {
 					System.out.format("%.2f",tabQtc[0][i][j]);
 					System.out.format(" ");
 				}
 				System.out.println();
-			}*/
-			
+			}
+			*/
 			//System.out.format("%.2f",tabQtc[0][0][0]);
 		}
 		else
 			szlrw.readSZLFile(filename);	
 	}
+	
 }
