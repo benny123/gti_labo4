@@ -48,7 +48,7 @@ public class Main {
 		DCT2D dct = new DCT2D();
 		Quantification qtc = new Quantification();
 		String extension = args[0].substring(args[0].lastIndexOf(".") + 1, args[0].length());
-		ZigZag zigzag = new ZigZag();
+		ZigZag zigzag;
 		
 		int tab[][][], factQ;
 		String filename = args[0];
@@ -69,7 +69,13 @@ public class Main {
 			//quantificaton
 			double [][][]tabQtc = qtc.quantifier(dctTab,factQ);
 			//zigzag
-			zigzag.diviserMatrice(tabQtc);
+			zigzag = new ZigZag(tabQtc);
+			int [][]tabDC = zigzag.getTabDC();
+			
+			System.out.println("Table de DC");
+			for(int g=0;g<32;g++)
+				System.out.println(tabDC[0][g]+" ");
+					
 			/*
 			//affiche un bloc 8x8 quantifié
 			for (int i=0; i<8; i++){
@@ -80,7 +86,8 @@ public class Main {
 				System.out.println();
 			}
 			*/
-			//System.out.format("%.2f",tabQtc[0][0][0]);
+			//System.out.format("%.2f",tabQtc[0][0][0]);		
+			
 		}
 		else
 			szlrw.readSZLFile(filename);	

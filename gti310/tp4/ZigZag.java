@@ -8,17 +8,25 @@ public class ZigZag {
 	private int dir = 1;
 	private int r = 0;
 	private int c = 0;
-	int zigzag[][][];
+	int tabAC[][][];
+	int tabDC[][] = new int [3][];
 	int temp[][][] = new int [3][8][8];
-	int x;
+	int x, cols, rows;
+	
+	public ZigZag(double[][][] imgQTF){
+		
+		rows = imgQTF[0][0].length;
+		cols = imgQTF[0].length;
+		tabAC = new int [3][rows/8][(8*8)-1]; // (8*8)-1 car on met le DC dans un tableau apart
+		tabDC = new int [3][rows/8];
+		
+		diviserMatrice(imgQTF);
+	}
 	
 	//source : http://ideone.com/xKRTwU
-	public void diviserMatrice(double[][][] imgQTF){
+	public  void  diviserMatrice(double[][][] imgQTF){
 		
 		int  rangee=0;
-		int rows = imgQTF[0][0].length;
-		int cols = imgQTF[0].length;
-		zigzag = new int [3][rows/8][8*8];
 
 		for(int x=0; x<3;x++){//change de matrice [Y - Cr - Cb ]	
 			rangee=0;
@@ -36,18 +44,7 @@ public class ZigZag {
 							temp[x][u%8][v%8] = (int)imgQTF[x][u][v]; 
 						}
 					}			
-					
-				/*	//affiche le tableau avant le zig zag
-					for (int i=0; i<8; i++){
-							for (int j=0; j<8; j++) {
-								System.out.format("%3d",temp[x][i][j]);
-								System.out.format(" ");
-							}
-							System.out.println();
-						}
-						JOptionPane.showMessageDialog(null, "niveau "+x+" block "+rangee);
-						*/
-					
+			
 					//faire le parcour du bloc 8x8 en zig zag
 					if(rangee<32){	
 						appliquerZigZag(temp,rangee,x);
@@ -56,15 +53,17 @@ public class ZigZag {
 				}
 			}
 		}
-		
+		/*
 		System.out.println("ZIG ZAG");
 		for(int g=0;g<64;g++)
 			System.out.println(zigzag[0][1][g]);
+		*/
 	}
 	
 	//fonction qui fait le parcour en zig zag
 	public void appliquerZigZag(int[][][] tempo, int rangee, int niv){
-
+		
+		int dc=0;
 	//affiche le tableau avant le zig zag
 	/*	for (int i=0; i<8; i++){
 			for (int j=0; j<8; j++) {
@@ -75,10 +74,19 @@ public class ZigZag {
 		}
 		JOptionPane.showMessageDialog(null, "niveau "+niv+" block "+row);
 		*/
-		r=0;c=0;dir=1; int indice=0;
+		r=0;c=0;dir=1; int col=0;
 		while (r < 8 && c < 8){
-			zigzag[niv][rangee][indice] = temp[niv][r][c];
-			indice++;
+			
+			//mettre la 1ere valeur dans la matrice des DC
+			if( col == 0){
+				dc = temp[niv][r][c];
+				tabDC[niv][rangee] = dc;
+				System.out.println("DC : "+dc);
+			}
+			else
+				tabAC[niv][rangee][col-1] = temp[niv][r][c];
+			
+			col++;
 			
 			if (dir == 1) {
 				if (c == 8 - 1) {
@@ -105,4 +113,17 @@ public class ZigZag {
 			}
 		}
 	}
+	
+	//retourne la table de DC
+	public int [][] getTabDC(){
+		return tabDC;
+	}
+	
+	//retourne la table de AC
+	public int [][][] getTabAC(){
+		return tabAC;
+	}
+	
+	
+	
 }
